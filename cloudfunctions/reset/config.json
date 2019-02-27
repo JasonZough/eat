@@ -1,0 +1,9 @@
+{
+    "triggers": [
+      {
+        "name": "newDay",
+        "type": "timer",
+        "config": "*/5 * * * * * *"
+      }
+    ]
+  }
