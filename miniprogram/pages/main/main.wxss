@@ -1,0 +1,23 @@
+.count {
+    text-align:center;
+    font-size:180rpx;
+    line-height:33.3vh;
+}
+  
+.person {
+    width: 70rpx;
+    height: 70rpx;
+    border-radius:50%;
+    margin-right:10rpx;  
+}
+  
+.block {
+    height: 33.3vh;
+    padding: 50rpx;
+    overflow: hidden;
+}
+  
+.orderBtn {
+    margin-top: -20rpx;
+}
+  
