@@ -60,19 +60,22 @@ Page({
             app.globalData.account.email = this.data.inputValue
             wx.navigateTo({url: '../main/main'})
             const account = this.data.accounts.find((a) => a.email === this.data.inputValue)
+            delete account._id
             wx.setStorageSync('account', JSON.stringify(account))
             try{
                 let res = await db.collection('persons').where({email: this.data.inputValue}).get()
-                if(res.data[0]){
+                if(!res.data[0]){
+                    console.log(1)
                     await db.collection('persons').add({data: {
                         ...app.globalData.user,
-                        ...app.globalData.account,
+                        ...account,
                         ordered: false,
                     }})
                 } else {
+                    console.log(2)
                     Persons.doc(res.data[0]._id).update({data: {
                         ...app.globalData.user,
-                        ...app.globalData.account,
+                        ...account,
                         ordered: false
                     }})
                 }
