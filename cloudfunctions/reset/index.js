@@ -16,8 +16,7 @@ cloud.init()
 const db = cloud.database()
 
 exports.main = async (event, context) => {
-  db.collection('persons')
+  return db.collection('persons')
     .where({avatarUrl: db.command.gt('h')})
     .update({data:{ordered: false}})
-  return 
 }
