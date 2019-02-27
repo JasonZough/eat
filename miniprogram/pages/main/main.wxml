@@ -1,7 +1,7 @@
 <view class='page'>
   <view class='count block'>{{persons.length}}</view>
   <view class='people block'>
-    <image class='person' wx:for='{{persons}}' wx:key='*this' src='{{item.avatarUrl}}'></image>
+    <image bindtap='showProfile' data-person='{{item}}' class='person' wx:for='{{persons}}' wx:key='*this' src='{{item.avatarUrl}}'></image>
   </view>
   <view class='block'>
     <button class='orderBtn' loading='{{working}}' disabled='{{disabled}}' type='{{ordered ? "warn" : "primary"}}' bindtap='toggleOrder'>{{ordered ? '取消' : '点饭'}}</button>

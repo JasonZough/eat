@@ -25,6 +25,11 @@ Page({
         this.setData({disabeld: false})
     }, () => service.errfy('获取人员列表失败'))
   },
+  showProfile (e) {
+    let person = e.currentTarget.dataset.person 
+    app.globalData.profilePerson = person
+    wx.navigateTo({url: '../profile/profile'})
+  },
   async toggleOrder () {
     const self = this
     this.setData({
