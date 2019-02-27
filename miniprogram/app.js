@@ -14,6 +14,7 @@ App({
     this.globalData = {
       user: {},
       account: {},
+      context: {},
     }
   }
 })

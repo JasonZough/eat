@@ -1,4 +1,6 @@
 <view class='page'>
-    <input placeholder='请输入公司邮箱' bindinput='setInputValue' />
-    <button type='primary' disabled='{{disabled}}' open-type='getUserInfo' bindgetuserinfo='onGotUserInfo'>下一步</button>
+    <view wx:if='{{!initing}}'>
+        <input placeholder='请输入公司邮箱' bindinput='setInputValue' />
+        <button type='primary' disabled='{{disabled}}' open-type='getUserInfo' bindgetuserinfo='onGotUserInfo'>下一步</button>
+    </view>
 </view>

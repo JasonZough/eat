@@ -8,7 +8,9 @@ Page({
     data: {
         inputValue: '',
         disabled: true,
-        accounts: []
+        accounts: [],
+        working: false,
+        initing: true,
     },
     setInputValue (e) {
         this.setData({
@@ -21,23 +23,26 @@ Page({
         }
     },
     onLoad () {
-        let account
-        try{account = JSON.parse(wx.getStorageSync('account'))
-        } catch(error){console.log(error)}
-        if(account){
-            wx.redirectTo({url: '../main/main'})
-            wx.getUserInfo({
-                success (res) {
-                    app.globalData.user = res.userInfo
-                    app.globalData.account = account
-                },
-                fail () {
-                    wx.redirectTo({url: '../index/index'})
-                }
-            })
-        } else {
-            this.getAccounts()
-        }
+        const self = this
+        wx.getUserInfo({
+            async success (data) {
+                try{
+                    let res = await wx.cloud.callFunction({name: 'getContext'})
+                    app.globalData.context = res.result
+                    res = await Persons.where({_openid: app.globalData.context.OPENID}).get()
+                    self.setData({initing: false})
+                    if(res.data[0]){
+                        app.globalData.user = res.data[0]
+                        wx.redirectTo({url: '../main/main'})
+                        self.updatePerson(res.data[0], data.userInfo)
+                    }
+                } catch(error){service.errfy('获取用户信息失败', error)}
+            },
+            fail () {
+                self.setData({initing: false})
+            }
+        })
+        this.getAccounts()
     },
     getAccounts () {
         wx.cloud.callFunction({
@@ -54,32 +59,52 @@ Page({
             service.errfy('获取账号信息失败')
         })
     },
+    updatePerson (present, current) {
+        let _id = present._id
+        delete present._id
+        delete present._openid
+        return Persons.doc(present._id).update({
+            data: {
+                ...present,
+                ...current
+            }
+        })
+    },
     async onGotUserInfo (e) {
         if(e.detail.userInfo){
-            app.globalData.user = e.detail.userInfo
-            app.globalData.account.email = this.data.inputValue
-            wx.navigateTo({url: '../main/main'})
-            const account = this.data.accounts.find((a) => a.email === this.data.inputValue)
-            delete account._id
-            wx.setStorageSync('account', JSON.stringify(account))
+            const user = {...e.detail.userInfo, email: this.data.inputValue}
             try{
-                let res = await db.collection('persons').where({email: this.data.inputValue}).get()
-                if(!res.data[0]){
-                    console.log(1)
-                    await db.collection('persons').add({data: {
-                        ...app.globalData.user,
-                        ...account,
-                        ordered: false,
-                    }})
-                } else {
-                    console.log(2)
-                    Persons.doc(res.data[0]._id).update({data: {
-                        ...app.globalData.user,
-                        ...account,
-                        ordered: false
-                    }})
+                this.setData({working: true, disabled: true})
+                let res = await wx.cloud.callFunction({name: 'getContext'})
+                app.globalData.context = res.result
+                res = await Persons.where({email: this.data.inputValue}).get()
+                if(res.data[0]){
+                    console.log(res.data[0]._openid, app.globalData.context.OPENID)
+                    if(res.data[0]._openid !== app.globalData.context.OPENID){
+                        return service.errfy('该邮箱已被占用, 请联系管理员')
+                    } else {
+                        this.updatePerson(res.data[0], e.detail.userInfo)
+                    }
                 }
-            }catch (error){ service.errfy('操作失败', error)}
+                res = await Persons.where({_openid: app.globalData.context.OPENID}).get()
+                if(res.data[0]){
+                    await this.updatePerson(res.data[0], user)
+                } else {
+                    await Persons.add({
+                        data: {
+                            ...user,
+                            ordered: false,
+                        }
+                    })
+                    app.globalData.user = {...user, ordered: false}
+                }
+                res = await Persons.where({_openid: app.globalData.context.OPENID}).get()
+                app.globalData.user = res.data[0]
+            } catch(error){
+                service.errfy('更新用户失败', error)
+            }
+            this.setData({working: false, disabled: false})
+            wx.redirectTo({url: '../main/main'})
         }
     }
 })

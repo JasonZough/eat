@@ -4,7 +4,8 @@ module.exports = {
     errfy (message, error) {
         if(error) console.error(error)
         wx.showModal({
-            title: message
+            title: '提示',
+            content: message
         })
     }
 }
