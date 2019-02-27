@@ -1,6 +1,8 @@
 const app = getApp()
 const db = wx.cloud.database()
 const service = require('../../service/index')
+const regeneratorRuntime = require('../../lib/regenerator-runtime/runtime.js')
+const Persons = db.collection('persons')
 
 Page({
     data: {
@@ -52,20 +54,29 @@ Page({
             service.errfy('获取账号信息失败')
         })
     },
-    onGotUserInfo (e) {
+    async onGotUserInfo (e) {
         if(e.detail.userInfo){
             app.globalData.user = e.detail.userInfo
             app.globalData.account.email = this.data.inputValue
             wx.navigateTo({url: '../main/main'})
             const account = this.data.accounts.find((a) => a.email === this.data.inputValue)
             wx.setStorageSync('account', JSON.stringify(account))
-            db.collection('persons').add({
-                data: {
-                    ...e.detail.userInfo,
-                    ...account,
-                    ordered: false
+            try{
+                let res = await db.collection('persons').where({email: this.data.inputValue}).get()
+                if(res.data[0]){
+                    await db.collection('persons').add({data: {
+                        ...app.globalData.user,
+                        ...app.globalData.account,
+                        ordered: false,
+                    }})
+                } else {
+                    Persons.doc(res.data[0]._id).update({data: {
+                        ...app.globalData.user,
+                        ...app.globalData.account,
+                        ordered: false
+                    }})
                 }
-            })
+            }catch (error){ service.errfy('操作失败', error)}
         }
     }
 })
