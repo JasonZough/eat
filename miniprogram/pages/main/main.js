@@ -10,7 +10,7 @@ Page({
       disabeld: true,
       working: false,
   },
-  async onLoad () {
+  async onShow () {
     this.setData({disabeld: true, working: true, ordered: app.globalData.user.ordered})
     try{
         let res = await wx.cloud.callFunction({name: 'getTime'})
