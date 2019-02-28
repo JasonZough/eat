@@ -24,11 +24,5 @@
     margin-top: 50rpx
 }
 
-.loader {
-    width: 100rpx;
-    height: 100rpx;
-    align-self: center;
-}
-
 
 

@@ -9,3 +9,9 @@
   width:90vw;
   left: 5vw;
 }
+
+.loader {
+  width: 100rpx;
+  height: 100rpx;
+  align-self: center;
+}

@@ -1,6 +1,7 @@
 <view class='page'>
-    <view class='profile'>
+    <view class='profile' wx:if='{{!working}}'>
         <image class='avatar' src='{{person.avatarUrl}}' />
         <view class='name'>{{person.name}}</view>
     </view>
+    <image class='loader' wx:else src='../../images/loading.gif' />
 </view>

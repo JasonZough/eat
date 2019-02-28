@@ -5,9 +5,10 @@ const service = require('../../service/index')
 
 Page({
     data: {
-        person: {}
+        person: {},
+        working: true,
     },
-    async onLoad () {
+    async onShow () {
         try {
             let person = app.globalData.profilePerson
             let res = await db.collection('accounts').where({email: person.email}).get()
@@ -17,5 +18,6 @@ Page({
             this.setData({person: app.globalData.profilePerson})
             service.errfy('获取员工姓名失败', error)
         }
+        this.setData({working: false})
     }
 })

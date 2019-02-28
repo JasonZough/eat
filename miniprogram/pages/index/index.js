@@ -24,7 +24,6 @@ Page({
     },
     async onLoad () {
         const self = this
-        await wx.cloud
         wx.getUserInfo({
             async success (data) {
                 try{
