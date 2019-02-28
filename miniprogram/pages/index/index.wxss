@@ -1,0 +1,24 @@
+.page {
+    display:flex;
+    justify-content:center;
+}
+
+.box {
+    width:90vw;
+    text-align:center;
+}
+
+.logo {
+    width:200rpx;
+    height:200rpx;
+    margin-bottom:150rpx;
+    margin-top:200rpx;
+}
+
+.email {
+    margin-top: 60rpx;
+    border-bottom:1px solid #00b26a;
+}
+
+
+

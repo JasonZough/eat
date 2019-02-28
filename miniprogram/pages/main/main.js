@@ -49,7 +49,7 @@ Page({
         if(this.data.ordered){
             await db.collection('persons').doc(res.data[0]._id).update({data: {ordered: false}})
             self.setData({
-                persons: self.data.persons.filter((person) => person._openid !== app.globalData.user._openid),
+                persons: self.data.persons.filter((person) => person._openid !== app.globalData.context.OPENID),
                 ordered: false
             })
             app.globalData.user.ordered = false
@@ -58,7 +58,8 @@ Page({
             self.setData({
                 persons: self.data.persons.concat([{
                     ...app.globalData.user,
-                    ordered: true
+                    ordered: true,
+                    _openid: app.globalData.context.OPENID,
                 }]),
                 ordered: true
             })

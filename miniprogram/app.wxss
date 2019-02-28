@@ -2,3 +2,10 @@
   height: 100vh;
   overflow: hidden;
 }
+
+.bottomBtn {
+  position:absolute;
+  bottom:50rpx;
+  width:90vw;
+  left: 5vw;
+}
