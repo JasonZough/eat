@@ -9,29 +9,23 @@ Page({
       ordered: false,
       disabeld: true,
       working: false,
-      forbid: false,
   },
-  onLoad () {
-    wx.cloud.callFunction({name: 'getTime'})
-    .then((res) => {
+  async onLoad () {
+    this.setData({disabeld: true, working: true, ordered: app.globalData.user.ordered})
+    try{
+        let res = await wx.cloud.callFunction({name: 'getTime'})
         let serverTime = new Date(res.result)
         if(serverTime.getHours() >= 17){
-            this.setData({forbid: true})
+            this.setData({working: false})
+            return
         }
-    })
-    this.setData({ordered: app.globalData.user.ordered})
-    wx.cloud.callFunction({
-        name: 'getAll',
-        data: {
-            name: 'persons'
-        }
-    })
-    .then((res) => {
+        res = await wx.cloud.callFunction({name: 'getAll',data: {name: 'persons'}})
         this.setData({
             persons: (res.result.data || []).filter((person) => person.ordered)
         })
         this.setData({disabeld: false})
-    }, () => service.errfy('获取人员列表失败'))
+    }catch (error) {service.errfy('页面初始化失败', error)}
+    this.setData({working: false, disabeld: false})
   },
   showProfile (e) {
     let person = e.currentTarget.dataset.person 

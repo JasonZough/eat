@@ -4,6 +4,6 @@
     <image bindtap='showProfile' data-person='{{item}}' class='person' wx:for='{{persons}}' wx:key='*this' src='{{item.avatarUrl}}'></image>
   </view>
   <view class='block'>
-    <button class='bottomBtn' loading='{{working}}' disabled='{{forbid || disabled}}' type='{{ordered ? "warn" : "primary"}}' bindtap='toggleOrder'>{{ordered ? '取消' : '点饭'}}</button>
+    <button class='bottomBtn' loading='{{working}}' disabled='{{disabled}}' type='{{ordered ? "warn" : "primary"}}' bindtap='toggleOrder'>{{ordered ? '取消' : '点饭'}}</button>
   </view>
 </view>

@@ -1,7 +1,8 @@
 <view class='page'>
     <view class='box' wx:if='{{!initing}}'>
         <image class='logo' src='../../images/logo.png'/>
-        <input class='email' placeholder='请输入公司邮箱' bindinput='setInputValue' />
-        <button class='bottomBtn' type='primary' disabled='{{disabled}}' open-type='getUserInfo' bindgetuserinfo='onGotUserInfo'>下一步</button>
+        <input class='email' placeholder='请输入您的公司邮箱' bindinput='setInputValue' />
+        <button class='btn' type='primary' loading='{{working}}' disabled='{{disabled}}' open-type='getUserInfo' bindgetuserinfo='onGotUserInfo'>下一步</button>
     </view>
+    <image class='loader' wx:else src='../../images/loading.gif' />
 </view>
