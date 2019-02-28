@@ -1,7 +1,6 @@
 <view class='page'>
-    <image class='avator' src='{{person.avatarUrl}}' />
-    <view class='info'>
-        <view class='item'>{{person.name}}</view>
-        <view class='item'>{{person.email}}</view>
+    <view class='profile'>
+        <image class='avatar' src='{{person.avatarUrl}}' />
+        <view class='name'>{{person.name}}</view>
     </view>
 </view>
