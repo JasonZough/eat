@@ -8,9 +8,17 @@ Page({
       persons: [],
       ordered: false,
       disabeld: true,
-      working: false
+      working: false,
+      forbid: false,
   },
   onLoad () {
+    wx.cloud.callFunction({name: 'getTime'})
+    .then((res) => {
+        let serverTime = new Date(res.result)
+        if(serverTime.getHours() >= 17){
+            this.setData({forbid: true})
+        }
+    })
     this.setData({ordered: app.globalData.user.ordered})
     wx.cloud.callFunction({
         name: 'getAll',
