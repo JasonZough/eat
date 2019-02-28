@@ -30,33 +30,32 @@ Page({
                     let res = await wx.cloud.callFunction({name: 'getContext'})
                     app.globalData.context = res.result
                     res = await Persons.where({_openid: app.globalData.context.OPENID}).get()
-                    self.setData({initing: false})
                     if(res.data[0]){
                         app.globalData.user = res.data[0]
                         wx.redirectTo({url: '../main/main'})
                         self.updatePerson(res.data[0], data.userInfo)
+                    } else {
+                        res = await self.getAccounts()
+                        self.setData({accounts: res.result.data || [], initing: false})
                     }
                 } catch(error){service.errfy('获取用户信息失败', error)}
             },
-            fail () {
-                self.setData({initing: false})
+            async fail () {
+                try{
+                    let res = await self.getAccounts()
+                    self.setData({accounts: res.result.data || [], initing: false})
+                }catch(error){
+                    service.errfy('获取账号列表失败', error)
+                }
             }
         })
-        this.getAccounts()
     },
     getAccounts () {
-        wx.cloud.callFunction({
+        return wx.cloud.callFunction({
             name: 'getAll',
             data: {
                 name: 'accounts'
             }
-        }).then((data) => {
-            this.setData({
-                accounts: data.result.data
-            })
-        }, (error) =>{
-            console.error(error)
-            service.errfy('获取账号信息失败')
         })
     },
     updatePerson (present, current) {
