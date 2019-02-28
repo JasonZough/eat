@@ -13,17 +13,16 @@ Page({
   async onShow () {
     this.setData({disabeld: true, working: true, ordered: app.globalData.user.ordered})
     try{
-        let res = await wx.cloud.callFunction({name: 'getTime'})
-        let serverTime = new Date(res.result)
-        if(serverTime.getHours() >= 17){
-            this.setData({working: false})
-            return
-        }
-        res = await wx.cloud.callFunction({name: 'getAll',data: {name: 'persons'}})
+        let res = await wx.cloud.callFunction({name: 'getAll',data: {name: 'persons'}})
         this.setData({
             persons: (res.result.data || []).filter((person) => person.ordered)
         })
-        this.setData({disabeld: false})
+        res = await wx.cloud.callFunction({name: 'getTime'})
+        let serverTime = new Date(res.result)
+        if(serverTime.getHours() >= 17){
+            this.setData({disabled: true, working: false})
+            return
+        }
     }catch (error) {service.errfy('页面初始化失败', error)}
     this.setData({working: false, disabeld: false})
   },
