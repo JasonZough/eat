@@ -22,7 +22,7 @@ Page({
             this.setData({disabled: true})
         }
     },
-    async onLoad () {
+    async onShow () {
         const self = this
         wx.getUserInfo({
             async success (data) {
