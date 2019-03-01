@@ -21,9 +21,9 @@ Page({
         this.setData({working: false})
     },
     onUnload () {
-        app.globalData.profileToMain = true
+        app.globalData.navigateToMain = true
         setTimeout(() => {
-            app.globalData.profileToMain = false
+            app.globalData.navigateToMain = false
         }, 1000)
     }
 })

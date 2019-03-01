@@ -1,6 +1,6 @@
 <view class='page'>
   <view class='box' wx:if='{{!initing}}'>
-    <view class='count block'>{{persons.length}}</view>
+    <view class='count block' bindtap='showList'>{{persons.length}}</view>
     <view class='people block'>
       <image bindtap='showProfile' data-person='{{item}}' class='person' wx:for='{{persons}}' wx:key='*this' src='{{item.avatarUrl}}'></image>
     </view>

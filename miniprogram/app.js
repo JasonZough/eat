@@ -16,7 +16,7 @@ App({
       account: {},
       context: {},
       profilePerson: null,
-      profileToMain: false,
+      navigateToMain: false,
     }
   }
 })

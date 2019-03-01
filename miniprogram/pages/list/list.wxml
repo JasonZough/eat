@@ -1,0 +1,9 @@
+<view class='page'>
+    <view class='persons' wx:if='{{!initing}}'>
+        <view class='tr' wx:for='{{persons}}'>
+            <image class='avatar' src='{{item.avatarUrl}}' />
+            <text class='name'>{{item.name}}</text>
+        </view>
+    </view>
+    <image class='loader' wx:else src='../../images/loading.gif' />
+</view>

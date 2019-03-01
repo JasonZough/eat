@@ -12,7 +12,7 @@ Page({
       initing: false,
   },
   async onShow (event) {
-    if(app.globalData.profileToMain){
+    if(app.globalData.navigateToMain){
         return
     }
     this.setData({initing: true, ordered: app.globalData.user.ordered})
@@ -34,6 +34,9 @@ Page({
     let person = e.currentTarget.dataset.person 
     app.globalData.profilePerson = person
     wx.navigateTo({url: '../profile/profile'})
+  },
+  showList () {
+    wx.navigateTo({url: '../list/list'})
   },
   async toggleOrder () {
     const self = this
