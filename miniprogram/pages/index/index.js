@@ -10,7 +10,7 @@ Page({
         disabled: true,
         accounts: [],
         working: false,
-        initing: true,
+        initing: false,
     },
     setInputValue (e) {
         this.setData({
@@ -23,6 +23,7 @@ Page({
         }
     },
     async onShow () {
+        this.setData({initing: true})
         const self = this
         wx.getUserInfo({
             async success (data) {
