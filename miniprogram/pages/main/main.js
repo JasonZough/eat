@@ -24,7 +24,7 @@ Page({
         res = await wx.cloud.callFunction({name: 'getTime'})
         let serverTime = new Date(res.result)
         if(serverTime.getHours() >= 17){
-            this.setData({disabled: true, working: false})
+            this.setData({initing:false, disabled: true, working: false})
             return
         }
     }catch (error) {service.errfy('页面初始化失败', error)}
