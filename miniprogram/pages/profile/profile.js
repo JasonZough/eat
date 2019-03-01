@@ -19,5 +19,11 @@ Page({
             service.errfy('获取员工姓名失败', error)
         }
         this.setData({working: false})
+    },
+    onUnload () {
+        app.globalData.profileToMain = true
+        setTimeout(() => {
+            app.globalData.profileToMain = false
+        }, 1000)
     }
 })

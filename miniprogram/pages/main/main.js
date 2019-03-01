@@ -11,7 +11,10 @@ Page({
       working: false,
       initing: false,
   },
-  async onShow () {
+  async onShow (event) {
+    if(app.globalData.profileToMain){
+        return
+    }
     this.setData({initing: true, ordered: app.globalData.user.ordered})
     try{
         let res = await wx.cloud.callFunction({name: 'getAll',data: {name: 'persons'}})
