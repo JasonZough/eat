@@ -14,5 +14,9 @@
 .block {
     height: 33.3vh;
     padding: 50rpx;
-    overflow: hidden;
+    overflow: auto;
+}
+
+.block.people {
+    height: 28vh
 }
