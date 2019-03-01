@@ -1,9 +1,12 @@
 <view class='page'>
-  <view class='count block'>{{persons.length}}</view>
-  <view class='people block'>
-    <image bindtap='showProfile' data-person='{{item}}' class='person' wx:for='{{persons}}' wx:key='*this' src='{{item.avatarUrl}}'></image>
+  <view class='box' wx:if='{{!initing}}'>
+    <view class='count block'>{{persons.length}}</view>
+    <view class='people block'>
+      <image bindtap='showProfile' data-person='{{item}}' class='person' wx:for='{{persons}}' wx:key='*this' src='{{item.avatarUrl}}'></image>
+    </view>
+    <view class='block'>
+      <button class='bottomBtn' loading='{{working}}' disabled='{{disabled}}' type='{{ordered ? "warn" : "primary"}}' bindtap='toggleOrder'>{{ordered ? '取消' : '点饭'}}</button>
+    </view>
   </view>
-  <view class='block'>
-    <button class='bottomBtn' loading='{{working}}' disabled='{{disabled}}' type='{{ordered ? "warn" : "primary"}}' bindtap='toggleOrder'>{{ordered ? '取消' : '点饭'}}</button>
-  </view>
+  <image class='loader' wx:else src='../../images/loading.gif' />
 </view>

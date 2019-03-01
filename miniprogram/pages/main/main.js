@@ -9,9 +9,10 @@ Page({
       ordered: false,
       disabeld: true,
       working: false,
+      initing: false,
   },
   async onShow () {
-    this.setData({disabeld: true, working: true, ordered: app.globalData.user.ordered})
+    this.setData({initing: true, ordered: app.globalData.user.ordered})
     try{
         let res = await wx.cloud.callFunction({name: 'getAll',data: {name: 'persons'}})
         this.setData({
@@ -24,7 +25,7 @@ Page({
             return
         }
     }catch (error) {service.errfy('页面初始化失败', error)}
-    this.setData({working: false, disabeld: false})
+    this.setData({initing: false})
   },
   showProfile (e) {
     let person = e.currentTarget.dataset.person 
