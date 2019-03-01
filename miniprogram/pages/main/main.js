@@ -52,15 +52,17 @@ Page({
             app.globalData.user.ordered = false
         } else {
             await db.collection('persons').doc(res.data[0]._id).update({data: {ordered: true}})
-            self.setData({
-                persons: self.data.persons.concat([{
-                    ...app.globalData.user,
-                    ordered: true,
-                    _openid: app.globalData.context.OPENID,
-                }]),
-                ordered: true
-            })
-            app.globalData.user.ordered = true
+            if(!self.data.persons.find((p) => p._openid === app.globalData.context.OPENID)){
+                self.setData({
+                    persons: self.data.persons.concat([{
+                        ...app.globalData.user,
+                        ordered: true,
+                        _openid: app.globalData.context.OPENID,
+                    }]),
+                    ordered: true
+                })
+                app.globalData.user.ordered = true
+            }
         }
     }catch (error) {service.errfy('操作失败', error)}
     this.setData({
